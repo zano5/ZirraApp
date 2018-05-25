@@ -1,0 +1,27 @@
+page-report2 {
+
+  ion-content{
+    background-color: #FFFAFA;
+  }
+
+  button{
+    margin-top:20px;
+  }
+
+  ion-icon{
+    color : white;
+  }
+
+  #media{
+
+    ion-icon{
+      color : black;
+    }
+
+  }
+
+  #controls{
+    display: inline;
+  }
+
+}

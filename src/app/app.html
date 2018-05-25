@@ -1,0 +1,106 @@
+<ion-menu [content]="content">
+  <ion-header>
+
+  </ion-header>
+
+  <ion-content>
+
+  <div id="logo">
+
+      <img src="assets/imgs/zirra3.png" >
+
+      <!-- <ion-item no-lines>
+      <button ion-button clear color="black" full  (click)="control()" item-end> <ion-icon name="md-arrow-dropdown" ></ion-icon>
+      </button>
+    </ion-item> -->
+
+
+<!-- <ion-row>
+    <ion-col col-8>
+      <ion-item id="media"  no-lines>
+
+        {{options}}
+
+      </ion-item>
+
+  </ion-col>
+
+  <ion-col col-4>
+
+
+      <button ion-button clear color="black" full  (click)="control()" item-end> <ion-icon name="md-arrow-dropdown" ></ion-icon>
+      </button>
+
+
+
+
+
+</ion-col>
+</ion-row> -->
+
+<!-- <div *ngIf=" options ===  'Menu' ">
+<ion-buttons end>
+<button ion-button clear color="black"   (click)="control()" item-end style="text-transform: none;">{{options}}  <ion-icon name="md-arrow-dropdown"  id="menu_icon"></ion-icon>
+</button>
+</ion-buttons>
+
+
+
+  </div> -->
+<!--
+  <div *ngIf=" options ===  'Types Of Racism' ">
+    <ion-buttons end>
+    <button ion-button clear color="black"   (click)="control()" item-end style="text-transform: none;">{{options}} <ion-icon name="md-arrow-dropup" id="menu_icon"></ion-icon>
+    </button>
+    </ion-buttons>
+
+
+
+      </div> -->
+
+
+ </div>
+
+
+
+
+      <!-- <ion-item>
+          <ion-avatar item-start>
+              <img src = "assets/imgs/hat.svg" item-left  id="menu" width="30px" height="30px" item-start>
+            </ion-avatar> -->
+
+          <!-- <ion-select #C (ionChange)="onChange(C.value)" >
+
+           <ion-option *ngFor="let race of racismList"  (click)="info(race)">
+              {{race.name}}
+            </ion-option>
+
+
+
+            <ion-option value="Individual Racism">Individual Racism</ion-option>
+            <ion-option value="Systemic Racial Discrimination">Systemic Racial Discrimination</ion-option>
+            <ion-option value="Cultural Racism">Cultural Racism</ion-option>
+            <ion-option value="Internalized Racism">Internalized Racism</ion-option>
+
+
+
+          </ion-select>
+
+
+
+
+        </ion-item> -->
+
+
+    <ion-list no-lines>
+      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+          <img [src] = "p.icon" item-left  id="menu" width="20px" height="20px">
+        {{p.title}}
+      </button>
+    </ion-list>
+  </ion-content>
+
+</ion-menu>
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

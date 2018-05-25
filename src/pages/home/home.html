@@ -1,0 +1,158 @@
+<ion-header>
+
+  <ion-navbar color="black">
+      <button ion-button menuToggle >
+          <ion-icon name="menu"></ion-icon>
+        </button>
+
+
+    <ion-title>ZiRRA</ion-title>
+
+
+
+
+
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content >
+
+
+  <!-- <div id="logo">
+
+    <img src="assets/imgs/zirra.png">
+
+
+
+  </div> -->
+
+
+  <div id="content">
+
+
+      <h5 text-center>Learn  More About Types Of Racism</h5>
+
+
+
+      <div class="info">
+
+          <!-- <p ion-text text-center>Break the silence!</p> -->
+
+          <!-- <p ion-text text-center>Know it. See it. Speak Act!</p>
+
+          <p ion-text text-center>Speak out and report acts of racism wth ease. If you don't do so, it stays invisible</p> -->
+
+        </div>
+
+
+              <!-- <ion-list >
+
+                <ion-list-header text-center>Types Of Radism</ion-list-header>
+
+                  <ion-item *ngFor="let racism of RacismList; let isOdd = odd; let isEven = even;" (click)="showAlert(racism)"
+                  [class.even]="isEven" [class.odd]="isOdd" [ngStyle]="{'max-width.px' : 400}">
+
+
+                    <ion-avatar item-left>
+                      <img [src]="racism.avatar_url">
+                    </ion-avatar>
+
+                  <h4>{{racism.name}}</h4>
+
+                </ion-item>
+
+                </ion-list> -->
+
+
+                <!-- <ion-grid no-padding>
+
+                    <ion-row  no-padding>
+                        <ion-col col-6   no-padding col-xs-6  no-padding col-lg-6   no-padding col-sm-6   no-padding col-xl-6  no-padding *ngFor="let racism of RacismList" >
+
+
+                            <ion-card  (click)="showAlert(racism)" no-padding>
+                                <img [src]="racism.avatar_url" >
+                                <div  text-center class="card-title"><h2>{{racism.name}}</h2></div>
+                              </ion-card>
+                        </ion-col>
+                      </ion-row>
+
+                    </ion-grid> -->
+
+<!--
+                <ion-grid no-padding>
+
+                    <ion-row  no-padding>
+                        <ion-col col-6  *ngFor="let racism of RacismList" no-padding>
+
+
+                            <ion-card  (click)="showAlert(racism)">
+                                <img [src]="racism.avatar_url" >
+                                <div class="shade"></div>
+                                <div  text-center class="card-title">{{racism.name}}</div>
+                              </ion-card>
+                        </ion-col>
+                      </ion-row>
+
+                    </ion-grid> -->
+
+
+
+   <ion-list>
+
+
+  <!-- [style.backgroundImage]="'url(' + racism.avatar_url + ')'"
+    style="background-position: center;
+    background-repeat: no-repeat;
+    background-size:cover; -->
+
+     <ion-card  *ngFor="let racism of RacismList" (click)="showAlert(racism)" [style.backgroundImage]="'url(' + racism.avatar_url + ')'"
+     style="background-position: center;
+     background-repeat: no-repeat;
+     background-size: 400px 400px;
+    ">
+
+       <!-- <img [src]="racism.avatar_url" > -->
+        <div class="shade"></div>
+        <div  text-center class="card-title"><div id="title">{{racism.name}}</div></div>
+      </ion-card>
+
+
+
+
+
+
+
+
+
+
+
+</ion-list>
+
+<!-- <div id="handle" style="padding-right:2px; padding-left:2px; height:50px; margin-top:10px;">
+
+
+  <button  bottom ion-button  outline block (click)="onReport()" padding>Report Incident</button>
+
+
+
+</div> -->
+
+
+
+
+
+          </div>
+
+
+
+
+
+          <ion-fab min bottom right color="red">
+              <button ion-fab (click)="onReport()" color="danger">Report</button>
+            </ion-fab>
+
+</ion-content>
