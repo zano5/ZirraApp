@@ -1,0 +1,37 @@
+<!--
+  Generated template for the UploadViewPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="black">
+    <ion-title>Uploaded Files</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+<ion-list text-wrap>
+
+  <ion-item *ngFor="let upload of uploads" text-wrap>
+
+   <p>{{upload.name}}</p>
+   <p>{{upload.downloadUrl}}</p>
+
+
+  </ion-item>
+
+
+
+
+</ion-list>
+
+
+
+
+
+</ion-content>

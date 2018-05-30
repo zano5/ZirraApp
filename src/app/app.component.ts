@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { RACISM_LIST } from '../mocks/Racism.mock';
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -31,7 +32,8 @@ export class MyApp {
 
       { title: 'About',icon: 'assets/imgs/kat1.png', component: 'AboutPage' },
       { title: 'FAQs',icon: 'assets/imgs/question.svg', component: 'FQuestionsPage'},
-      { title: 'Types Of Racism',icon: 'assets/imgs/hat.svg', component: 'TypesPage'}
+      { title: 'Types Of Racism',icon: 'assets/imgs/hat.svg', component: 'TypesPage'},
+      { title: 'Terms & Conditions',icon: 'assets/imgs/diploma.svg', component: 'TermsPage'}
 
 
     ];

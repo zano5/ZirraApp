@@ -48,10 +48,9 @@ export class Report1Page {
     nationality:"",
     religion:"",
     person:"",
-    imageUrl:"",
-    videoUrl:"",
-    audioUrl:"",
-    created:""
+    created:"",
+    fireUploads: []
+
 
 
 
@@ -67,6 +66,7 @@ export class Report1Page {
   image="";
 
   files;
+  fireUpload;
 
 
 
@@ -76,6 +76,10 @@ export class Report1Page {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private fb: FormBuilder,private toastCtrl: ToastController,private fire: FirebaseProvider, private alertCtrl: AlertController,public loadingCtrl: LoadingController) {
 
+   this.fireUpload = this.navParams.get('fireUpload');
+
+
+    console.log(this.fireUpload);
     this.files= this.navParams.get('files');
     this.person = this.navParams.get('person');
     this.info = this.navParams.get('value');
@@ -86,6 +90,8 @@ export class Report1Page {
     this.image=this.navParams.get('image');
 
     console.log(this.info.location);
+
+    console.log(this.fireUpload);
 
   if(this.type === "me"){
 
@@ -151,9 +157,8 @@ export class Report1Page {
       this.repo.location = this.info.location;
       this.repo.person = this.type;
       this.repo.created = new Date().toISOString();
-      this.repo.imageUrl = this.files.picture;
-      this.repo.videoUrl = this.files.video;
-      this.repo.audioUrl = this.files.audio;
+   
+      this.repo.fireUploads  = this.fireUpload;
 
 
 

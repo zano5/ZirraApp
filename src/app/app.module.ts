@@ -1,8 +1,9 @@
+import { storage } from 'firebase/app';
 import { HttpClient } from '@angular/common/http';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicApp, IonicErrorHandler, IonicModule, LoadingController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
@@ -17,6 +18,9 @@ import * as firebase from 'firebase';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
+import 'firebase/storage';
+
+
 
 
 
@@ -38,8 +42,9 @@ var firebaseConfig = {
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireDatabaseModule,
-    AngularFireAuthModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+   AngularFireAuthModule,
+  AngularFireModule.initializeApp(firebaseConfig)
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -55,7 +60,9 @@ var firebaseConfig = {
     MediaCapture,
     Camera,
     File,
-    HttpClient
+    HttpClient,
+
+
   ]
 })
 export class AppModule {}

@@ -20,17 +20,6 @@
 
 <ion-content >
 
-  <div id="content">
-
-
-
-
-
-
-
-
-
- <ion-list>
 
 
 
@@ -41,19 +30,26 @@
       <div  text-center class="card-title">{{racism.name}}</div>
 
     </ion-card> -->
-
+    <div class="info">
     <ion-list>
+
         <ion-item text-wrap *ngFor="let racism of racisms">
+
+
+
 
           <h2 text-center>{{racism.name}}</h2>
 
-          <p>{{racism.description}}</p>
+          <p style="margin-top:10px">{{racism.description}}</p>
 
 
         </ion-item>
 
 
+
+
     </ion-list>
+  </div>
 
 
 
@@ -64,14 +60,6 @@
 
 
 
-
-</ion-list>
-
-
-
-
-
-</div>
 
 
 

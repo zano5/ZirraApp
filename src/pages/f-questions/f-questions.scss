@@ -2,4 +2,12 @@ page-f-questions {
   ion-icon{
     color : white;
   }
+
+
+  .info p, li{
+    font-family: Arial, Helvetica, sans-serif;
+      font-size: 15px;
+      margin: $my-padding;
+
+    }
 }
