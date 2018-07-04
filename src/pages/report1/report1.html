@@ -16,9 +16,8 @@
 <ion-content padding>
 
 
-    <ion-item text-wrap no-lines>
-        <ion-label text-wrap>We may wish to contact you to discuss it further. If you agree, please provide your contact details.</ion-label>
-        <ion-checkbox [(ngModel)]="status"></ion-checkbox>
+    <ion-item text-wrap no-lines><p>By submitting this report, you agree to our <u  (click)="terms()"> terms & conditions</u> . We may wish to contact you to discuss it further, if you agree, please provide your contact details. </p>
+
       </ion-item>
 
 
@@ -52,7 +51,66 @@
 
 
 
-      <button  round ion-button block type="submit" [disabled]="status === false "   color="toolbar">Submit</button>
+          <ion-item>
+            <ion-label floating text-wrap>Have you reported this to any organization/institution?</ion-label>
+            <ion-select formControlName="organization" [(ngModel)]="option">
+              <ion-option value="yes">Yes</ion-option>
+              <ion-option value="no">No</ion-option>
+            </ion-select>
+            </ion-item>
+
+
+
+              <div *ngIf="option === 'yes'">
+
+
+          <ion-item text-wrap>
+            <ion-label floating  text-wrap>Which of the following organization did you report the incident to ?</ion-label>
+            <ion-select multiple="true" formControlName="reported"  [(ngModel)]="reportedInfo">
+              <ion-option value="police">Police</ion-option>
+              <ion-option value="a trade union">A Trade Union</ion-option>
+              <ion-option value="equality court">Equality Court</ion-option>
+              <ion-option text-wrap value="south african human rights comission">South African Human Rights Commission</ion-option>
+              <ion-option value="religious organization">Religious Organization</ion-option>
+              <ion-option text-wrap value="migrant or anti-racism organization">Migrant Or Anti-racism Organization</ion-option>
+              <ion-option text-wrap value="public reprentative">Public Reprsentative(Councillior, Member of Parliament,etc.)</ion-option>
+              <ion-option text-wrap value="other">Other</ion-option>
+            </ion-select>
+            </ion-item>
+
+          </div>
+
+
+
+            <div *ngIf="option ==='no'">
+
+              <ion-item text-wrap>
+                <ion-label floating text-wrap>Reason for not reporting?</ion-label>
+                <ion-select  formControlName="reported" [(ngModel)]="reportedInfo">
+                  <ion-option text-wrap value="I would not feel comfortable talking to the aforementioned organizations">I would not feel comfortable talking to the aforementioned organisations</ion-option>
+                  <ion-option  text-wrap value="Poor response from them when dealing with previous incidents">Poor response from them when dealing with previous incidents</ion-option>
+                  <ion-option text-wrap value="Worried about the offender's response">Worried about the offender's response</ion-option>
+
+
+
+                </ion-select>
+                </ion-item>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <button   ion-button block type="submit" [disabled]="(option === '') &&  (reportedInfo === '') "    color="toolbar">Submit</button>
 
 
 

@@ -6,12 +6,29 @@
 -->
 <ion-header>
 
+
   <ion-navbar color="black">
+      <!-- <div *ngIf="plat.is('android')">
       <button ion-button  menuToggle (click)="about()">
           <ion-icon name="arrow-round-back"  ></ion-icon>
         </button>
 
-    <ion-title> Frequently Asked Questions</ion-title>
+
+
+      </div> -->
+
+      <button  *ngIf="plat.is('android')" ion-button  menuToggle (click)="about()">
+          <ion-icon name="arrow-round-back"  ></ion-icon>
+        </button>
+
+
+
+      <button  *ngIf="plat.is('ios')" ion-button  menuToggle (click)="about()">
+          <ion-icon name="ios-arrow-back-outline"  ></ion-icon>ZiRRA
+        </button>
+
+        <ion-title> Frequently Asked Questions</ion-title>
+
   </ion-navbar>
 
 </ion-header>
@@ -35,7 +52,7 @@
   </ion-list> -->
   <div class="info">
 
-  <h4>What is the purpose of ZiRRA</h4>
+  <h4>What is the purpose of ZiRRA?</h4>
 
   <p>ZiRRA aims to create an environment where you can feel confident and safe to report any cases of racism
       you experience or witness including racial discrimination.</p>
@@ -45,7 +62,7 @@
           people from reporting cases at a local community anti-racism organization, Police Services or Human
           Rights Commission.</p>
 
-          <h4>What can you report</h4>
+          <h4>What can you report?</h4>
 
           <p>You can report any kind of racism, such as:</p>
 

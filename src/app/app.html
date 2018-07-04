@@ -1,4 +1,4 @@
-<ion-menu [content]="content">
+<ion-menu [content]="content" type="overlay">
   <ion-header>
 
   </ion-header>
@@ -7,7 +7,7 @@
 
   <div id="logo">
 
-      <img src="assets/imgs/zirra3.png" >
+      <img src="assets/imgs/zirra4.png" >
 
       <!-- <ion-item no-lines>
       <button ion-button clear color="black" full  (click)="control()" item-end> <ion-icon name="md-arrow-dropdown" ></ion-icon>
@@ -93,9 +93,9 @@
 
 
     <ion-list no-lines>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)" >
           <img [src] = "p.icon" item-left  id="menu" width="20px" height="20px">
-        {{p.title}}
+    {{p.title}}
       </button>
     </ion-list>
   </ion-content>

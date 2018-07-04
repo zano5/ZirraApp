@@ -15,7 +15,7 @@
 
 <ion-content padding>
 
-    <form [formGroup]="report" (ngSubmit)="formSubmit(report)">
+    <form [formGroup]="report" (ngSubmit)="formSubmit(report)" text-wrap>
 
 
 
@@ -26,7 +26,7 @@
                 <ion-option value="Free State">Free State</ion-option>
                 <ion-option value="Gauteng">Gauteng</ion-option>
                 <ion-option value="Mpumalanga">Mpumalanga</ion-option>
-                <ion-option value="KwazuluNatal">KwaZulu-Natal</ion-option>
+                <ion-option value="KwaZulu-Natal">KwaZulu-Natal</ion-option>
               <ion-option value="Northern Cape">Northern Cape</ion-option>
                 <ion-option value="North West">North West</ion-option>
                       <ion-option value="Limpopo">Limpopo</ion-option>
@@ -58,7 +58,7 @@
             <p>Please provide date</p>
           </ion-item>
 
-          <ion-item>
+          <ion-item text-wrap>
             <ion-label floating>Describe Incident(What, Where, How, etc)</ion-label>
             <ion-textarea type="text" formControlName="description"></ion-textarea>
             </ion-item>
@@ -115,7 +115,7 @@
 
 
 
-
+<!--
     <ion-row center>
       <ion-col col-6>
 
@@ -144,7 +144,7 @@
           </ion-item>
       </ion-col>
 
-    </ion-row>
+    </ion-row> -->
 
 
 
@@ -152,42 +152,31 @@
     <ion-row center>
 
 
-
-
-      <ion-col col-6>
-          <ion-item id="media" (click)="upload('video')"  no-lines>
-
-              <ion-icon name="md-videocam" icon-start></ion-icon>
-
-              Video
-
-
-          </ion-item>
-
-      </ion-col>
-
-      <ion-col col-6>
+      <ion-col col-12>
         <ion-item id="media" (click)="onFile()"  no-lines>
 
             <ion-icon name="md-cloud-upload" icon-start></ion-icon>
 
-            Upload File
+
+            Upload File(Image/Audio/Video/Doc)
 
 
         </ion-item>
 
     </ion-col>
-    </ion-row>
+  </ion-row>
 
 
+<!--
+  <button ion-button  type="button" full (click)="onFile()" >Upload File(Picture,Audio,Video)</button> -->
 
 
+    <!-- <button type="file" ng-model="file" ng-change="selectfile()">Upload File(Picture,Audio,Video)</button> -->
 
 
-
-
-<button  round ion-button block type="button"  color="toolbar" (click)="onView()">View Uploads</button>
-<button  round ion-button block type="submit" [disabled]="report.invalid" color="toolbar">Next</button>
+<!--
+<button   ion-button block type="button"  color="toolbar" (click)="onView()">View Uploads</button> -->
+<button  ion-button block type="submit" [disabled]="report.invalid" color="toolbar">Next</button>
 
 
 

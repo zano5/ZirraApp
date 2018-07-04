@@ -1,6 +1,6 @@
 import { QUESTION_LIST } from './../../mocks/question.mocks';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,Platform } from 'ionic-angular';
 
 /**
  * Generated class for the FQuestionsPage page.
@@ -17,8 +17,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class FQuestionsPage {
 
   questions= QUESTION_LIST;
+  plat;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform) {
+    this.plat = this.platform;
   }
 
   ionViewDidLoad() {

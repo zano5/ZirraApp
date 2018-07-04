@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 
 /**
  * Generated class for the TermsPage page.
@@ -15,7 +15,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class TermsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+terms="";
+plat;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private platform: Platform) {
+    this.plat = this.platform;
+
+    this.terms = this.navParams.get('terms');
+
   }
 
   ionViewDidLoad() {
@@ -25,7 +32,15 @@ export class TermsPage {
 
   about(){
 
-    this.navCtrl.setRoot('HomePage');
+    //this.navCtrl.setRoot('HomePage');
+
+    if(this.terms === 'terms'){
+      this.navCtrl.pop();
+
+    }else if(this.terms === 'home')
+    {
+      this.navCtrl.setRoot('HomePage');
+    }
 
   }
 

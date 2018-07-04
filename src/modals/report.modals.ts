@@ -18,7 +18,9 @@ export interface Report{
   religion:string,
   audioFile:string,
   videoFile:string,
-  imageFile:string
+  imageFile:string,
+  reported:string,
+  organization:string
 
 
 

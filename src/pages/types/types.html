@@ -9,8 +9,14 @@
   <ion-navbar color="black">
 
 
-      <button ion-button  menuToggle (click)="about()">
+      <button  *ngIf="plat.is('android')" ion-button  menuToggle (click)="about()">
           <ion-icon name="arrow-round-back"  ></ion-icon>
+        </button>
+
+
+
+      <button  *ngIf="plat.is('ios')" ion-button  menuToggle (click)="about()">
+          <ion-icon name="ios-arrow-back-outline"  ></ion-icon>ZiRRA
         </button>
     <ion-title>    Types Of Racism</ion-title>
   </ion-navbar>
@@ -38,9 +44,9 @@
 
 
 
-          <h2 text-center>{{racism.name}}</h2>
+          <h2 text-center style="font:bold; font-family:bold;font-weight: bold">{{racism.name}}</h2>
 
-          <p style="margin-top:10px">{{racism.description}}</p>
+          <p style="margin-top:10px;color: black">{{racism.description}}</p>
 
 
         </ion-item>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
 import { RACISM_LIST } from '../../mocks/Racism.mock';
 
 /**
@@ -18,8 +18,10 @@ export class TypesPage {
 
   racisms = RACISM_LIST;
   person;
+  plat;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private alertCtrl: AlertController, private platform: Platform) {
+    this.plat = this.platform;
   }
 
   ionViewDidLoad() {

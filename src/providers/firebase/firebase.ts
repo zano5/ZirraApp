@@ -23,6 +23,20 @@ export class FirebaseProvider {
   }
 
 
+  public getCounter()
+  {
+   return  this.adf.object('counter');
+
+  }
+
+  public writeCounter() {
+    firebase.database().ref('counter').set({
+      counter: 0
+
+    });
+  }
+
+
 
 
 

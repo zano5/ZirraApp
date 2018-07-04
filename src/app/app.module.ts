@@ -1,3 +1,4 @@
+
 import { storage } from 'firebase/app';
 import { HttpClient } from '@angular/common/http';
 import { FileChooser } from '@ionic-native/file-chooser';
@@ -16,9 +17,22 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import * as firebase from 'firebase';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions } from '@ionic-native/media-capture';
-import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
 import 'firebase/storage';
+import { CountryProvider } from '../providers/country/country';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http'
+import { FilePath } from '@ionic-native/file-path';
+import { PhotoLibrary } from '@ionic-native/photo-library';
+import { Camera } from '@ionic-native/camera';
+import { IOSFilePicker } from '@ionic-native/file-picker';
+import { Network } from '@ionic-native/network';
+
+
+
+
+
+
 
 
 
@@ -40,10 +54,19 @@ var firebaseConfig = {
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp,{
+      menuType: 'push',
+      platforms: {
+        ios: {
+          menuType: 'overlay',
+        }
+      }
+    }),
     AngularFireDatabaseModule,
    AngularFireAuthModule,
-  AngularFireModule.initializeApp(firebaseConfig)
+  AngularFireModule.initializeApp(firebaseConfig),
+  HttpClientModule
+
 
   ],
   bootstrap: [IonicApp],
@@ -58,9 +81,19 @@ var firebaseConfig = {
     DataProvider,
     FileChooser,
     MediaCapture,
-    Camera,
     File,
     HttpClient,
+    HttpModule,
+    CountryProvider,
+    FilePath,
+    PhotoLibrary,
+    Camera,
+    IOSFilePicker,
+    Network
+
+
+
+
 
 
   ]

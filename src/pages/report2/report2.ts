@@ -1,3 +1,4 @@
+import { IOSFilePicker } from '@ionic-native/file-picker';
 import { Upload } from './../../modals/upload.modals';
 import { DataProvider } from './../../providers/data/data';
 import { FirebaseProvider } from './../../providers/firebase/firebase';
@@ -7,11 +8,16 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Report } from '../../modals/report.modals';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from '@ionic-native/media-capture';
 import * as firebase from 'firebase';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+
 import { storage } from 'firebase/app';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { File } from '@ionic-native/file';
 import { FirebaseApp } from 'angularfire2';
+
+import { PhotoLibrary } from '@ionic-native/photo-library';
+import { FilePath } from '@ionic-native/file-path';
+import { ActionSheetController } from 'ionic-angular'
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 
 
@@ -56,9 +62,12 @@ export class Report2Page {
   stringAudio="";
   stringVideo="";
   cats= ['one','two','third'];
+  private imageSrc: string;
 
   loader;
   valid = false;
+
+  proceed;
 
 
 
@@ -111,7 +120,7 @@ fire = {
 
 
 
-    constructor(public navCtrl: NavController, public navParams: NavParams,private fileChooser: FileChooser, private fb:FormBuilder, private data : DataProvider, private alertCtrl: AlertController,private mediaCapture: MediaCapture,private platform: Platform, private f : File,public loadingCtrl: LoadingController) {
+    constructor(public navCtrl: NavController, public navParams: NavParams,private fileChooser: FileChooser, private fb:FormBuilder, private data : DataProvider, private alertCtrl: AlertController,private mediaCapture: MediaCapture,private platform: Platform, private f : File,public loadingCtrl: LoadingController,private filePath: FilePath,private photoLibrary: PhotoLibrary,public actionSheetCtrl: ActionSheetController,private camera: Camera, private filePicker: IOSFilePicker) {
 
 
       this.alertCtrl = alertCtrl;
@@ -208,102 +217,247 @@ fire = {
 
   onFile(){
 
+
+
+
+
+
+
+  if(this.platform.is('android')){
+
+
+
+
+
+
+
+
     this.fileChooser.open()
-  .then(uri => this.stringUri = uri)
-  .catch(e => console.log(e));
-
-  if(this.stringUri){
-  this.uploads.push({name:"File",downloadUrl: this.stringPic});
-  this.imageURI = this.stringUri;
-  var name = this.imageURI.substring(this.imageURI.lastIndexOf('/')+1, this.imageURI.length);
-
-  var directory: string = this.imageURI.substring(0, this.imageURI.lastIndexOf('/')+1);
-  directory = directory.split('%20').join(' ')
-  name = name.split('%20').join(' ')
-  console.log(directory)
-  console.log('About to read buffer')
-
-
-  return this.f.readAsArrayBuffer(directory, name).then((buffer: ArrayBuffer) => {
-    console.log(buffer)
-    console.log('Uploading file')
-    var blob = new Blob([buffer], { type: 'application/octet-stream' });
-    console.log(blob.size);
-    console.log(blob)
-
-    let fileType = {
-      camera: 'jpg',
-      video: 'mp4',
-      audio: 'mp4'
-    }
+    .then(uri =>{
 
 
 
-    const storageRef = firebase.storage().ref('files/' + new Date().getTime());
+      this.filePath.resolveNativePath(uri)
+      .then(filePath => {
 
 
+        this.uploads.push({name:"File",downloadUrl: filePath});
+      this.imageURI = filePath;
+      var name = this.imageURI.substring(this.imageURI.lastIndexOf('/')+1, this.imageURI.length);
 
-    return storageRef.put(blob).then(() => {
-      this.valid = true;
-      console.log(this.valid);
-      console.log('Upload completed')
-      //this.loader.dismiss;
-
-       let  files = [];
-
-
-      storageRef.getDownloadURL().then((url) => {
-
-        console.log("log1: " + url);
-
-        this.fire.downloadUrl = url;
-
-        console.log("log2:" + this.fire)
+      var directory: string = this.imageURI.substring(0, this.imageURI.lastIndexOf('/')+1);
+      directory = directory.split('%20').join(' ')
+      name = name.split('%20').join(' ')
+      console.log(directory)
+      console.log('About to read buffer')
 
 
 
 
 
+      return this.f.readAsArrayBuffer(directory, name).then((buffer: ArrayBuffer) => {
+        console.log(buffer)
+        console.log('Uploading file')
+        var blob = new Blob([buffer], { type: 'application/octet-stream' });
+        console.log(blob.size);
+        console.log(blob)
+
+        let fileType = {
+          camera: 'jpg',
+          video: 'mp4',
+          audio: 'mp4'
+        }
+
+        this.proceed= false;
+
+        const storageRef = firebase.storage().ref('files/' + new Date().getTime());
 
 
 
-        this.firebaseUploads.push(url);
-
-        return this.firebaseUploads;
 
 
+        this.presentLoading();
 
-      });
+        return storageRef.put(blob).then(() => {
+          this.valid = true;
+          console.log(this.valid);
+          console.log('Upload completed')
+          //this.loader.dismiss;
+
+           let  files = [];
+
+
+          storageRef.getDownloadURL().then((url) => {
+
+            console.log("log1: " + url);
+
+            this.fire.downloadUrl = url;
+
+            console.log("log2:" + this.fire);
+
+            this.proceed = true;
 
 
 
 
 
-      console.log(this.firebaseUploads);
-      this.presentMedia('File');
 
+
+
+            this.firebaseUploads.push({downloadUrl: url});
+
+            return this.firebaseUploads;
+
+
+
+
+
+          });
+
+
+
+
+
+
+
+
+        console.log(this.firebaseUploads);
+        this.presentMedia('File');
+
+        })
+
+
+
+
+      // return this.userService.saveProfilePicture(blob)
+    }).catch(err => {
+      console.log(err)
     })
 
 
+      }
 
 
-    // return this.userService.saveProfilePicture(blob)
-  }).catch(err => {
-    console.log(err)
-  })
+    ).catch(err => console.log(err));
+
+
+
+
+
+  //   if(this.stringUri){
+  //   this.uploads.push({name:"File",downloadUrl: this.stringPic});
+  //   this.imageURI = this.stringUri;
+  //   var name = this.imageURI.substring(this.imageURI.lastIndexOf('/')+1, this.imageURI.length);
+
+  //   var directory: string = this.imageURI.substring(0, this.imageURI.lastIndexOf('/')+1);
+  //   directory = directory.split('%20').join(' ')
+  //   name = name.split('%20').join(' ')
+  //   console.log(directory)
+  //   console.log('About to read buffer')
+
+
+  //   return this.f.readAsArrayBuffer(directory, name).then((buffer: ArrayBuffer) => {
+  //     console.log(buffer)
+  //     console.log('Uploading file')
+  //     var blob = new Blob([buffer], { type: 'application/octet-stream' });
+  //     console.log(blob.size);
+  //     console.log(blob)
+
+  //     let fileType = {
+  //       camera: 'jpg',
+  //       video: 'mp4',
+  //       audio: 'mp4'
+  //     }
+
+
+
+  //     const storageRef = firebase.storage().ref('files/' + new Date().getTime());
+
+
+
+  //     return storageRef.put(blob).then(() => {
+  //       this.valid = true;
+  //       console.log(this.valid);
+  //       console.log('Upload completed')
+  //       //this.loader.dismiss;
+
+  //        let  files = [];
+
+
+  //       storageRef.getDownloadURL().then((url) => {
+
+  //         console.log("log1: " + url);
+
+  //         this.fire.downloadUrl = url;
+
+  //         console.log("log2:" + this.fire)
+
+
+
+
+
+
+
+
+  //         this.firebaseUploads.push(url);
+
+  //         return this.firebaseUploads;
+
+
+
+
+
+  //       });
+
+
+
+
+
+
+
+
+  //     console.log(this.firebaseUploads);
+  //     this.presentMedia('File');
+
+  //     })
+
+
+
+
+  //   // return this.userService.saveProfilePicture(blob)
+  // }).catch(err => {
+  //   console.log(err)
+  // })
+
+  //   }
+
+
+})
+  } else if(this.platform.is('ios')){
+
+
+ this.presentActionSheet();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   }
-
-
-
-
-
-
-
-
-
-
-
 
 
   }
@@ -384,7 +538,7 @@ fire = {
 
   presentMedia(message) {
     let alert = this.alertCtrl.create({
-      title: 'File Add!',
+      title: 'File Added!',
       subTitle:message,
       buttons: ['Ok']
     });
@@ -586,16 +740,479 @@ presentLoading() {
 
 
 }
+uploadPath() {
+  this.fileChooser.open().then((url) => {
 
-  // filePicker()
-  // {
-  //   this.fileOpener.open(g)
-  // .then(() => console.log('File is opened'))
-  // .catch(e => console.log('Error opening file', e));
-  // }
+    (<any>window).FilePath.resolveNativePath(url, (nativeFilepath) => {
 
+      this.readFileFromStorage(nativeFilepath);
+
+    }
+    )
+  })
+}
+
+readFileFromStorage(nativeFilepath) {
+
+  let fileName = this.getfilename(nativeFilepath);
+
+  let fileExt = fileName.substring(fileName.lastIndexOf('.') + 1);
+
+  let blogType = { type: 'image/'+fileExt };
+
+  (<any>window).resolveLocalFileSystemURL(nativeFilepath, (res) => {
+    res.file((resFile) => {
+      var reader = new FileReader();
+      reader.readAsArrayBuffer(resFile);
+      reader.onloadend = (evt: any) => {
+
+        var imgBlob = new Blob([evt.target.result], blogType);
+
+        //Upload blob to firebase
+        this.uploadToFirebase(imgBlob,fileName);
+      }
+    })
+  })
+}
+
+getfilename(filePath){
+  let fileName : string;
+  fileName = filePath.replace(/^.*[\\\/]/, '')
+  return fileName;
+}
+
+uploadToFirebase(fileBlob, name) {
+
+  let storage = firebase.storage();
+
+  storage.ref('images/' + name).put(fileBlob).then((d) => {
+    alert("Done");
+  }).catch((error) => {
+    alert("Error: " + JSON.stringify(error));
+  });
+
+}
+
+
+presentActionSheet() {
+  let actionSheet = this.actionSheetCtrl.create({
+    title: 'Media Files',
+    buttons: [
+      {
+        text: 'Image',
+        handler: () => {
+
+          this.openGallery();
+        }
+      },
+      {
+        text: 'Video',
+        handler: () => {
+
+          this.openMedia();
+
+        }
+      },
+      {
+        text: 'Document',
+
+        handler: () => {
+
+
+            this.documentPicker();
+
+
+
+
+
+        }
+
+
+
+
+
+      },
+      {
+        text: 'Cancel',
+        role:'cancel',
+
+        handler: () => {
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+      }
+    ]
+  });
+
+
+
+  actionSheet.present();
+}
+
+
+private openGallery (): void {
+  let cameraOptions = {
+    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+    destinationType: this.camera.DestinationType.FILE_URI,
+    quality: 100,
+    targetWidth: 1000,
+    targetHeight: 1000,
+    encodingType: this.camera.EncodingType.JPEG,
+    correctOrientation: true
+  }
+
+  this.camera.getPicture(cameraOptions)
+    .then(uri =>{
+
+      this.uploads.push({name:"File",downloadUrl: uri});
+      this.imageURI = uri;
+      var name = this.imageURI.substring(this.imageURI.lastIndexOf('/')+1, this.imageURI.length);
+
+      var directory: string = this.imageURI.substring(0, this.imageURI.lastIndexOf('/')+1);
+      directory = directory.split('%20').join(' ')
+      name = name.split('%20').join(' ')
+      console.log(directory)
+      console.log('About to read buffer')
+
+
+      return this.f.readAsArrayBuffer(directory, name).then((buffer: ArrayBuffer) => {
+        console.log(buffer)
+        console.log('Uploading file')
+        var blob = new Blob([buffer], { type: 'application/octet-stream' });
+        console.log(blob.size);
+        console.log(blob)
+
+        let fileType = {
+          camera: 'jpg',
+          video: 'mp4',
+          audio: 'mp4'
+        }
+
+        this.proceed= false;
+
+        const storageRef = firebase.storage().ref('files/' + new Date().getTime());
+
+
+
+
+
+        this.presentLoading();
+
+        return storageRef.put(blob).then(() => {
+          this.valid = true;
+          console.log(this.valid);
+          console.log('Upload completed')
+          //this.loader.dismiss;
+
+           let  files = [];
+
+
+          storageRef.getDownloadURL().then((url) => {
+
+            console.log("log1: " + url);
+
+            this.fire.downloadUrl = url;
+
+            console.log("log2:" + this.fire);
+
+            this.proceed = true;
+
+
+
+
+
+
+
+
+            this.firebaseUploads.push({downloadUrl: url});
+
+            return this.firebaseUploads;
+
+
+
+
+
+          });
+
+
+
+
+
+
+
+
+        console.log(this.firebaseUploads);
+        this.presentMedia('File');
+
+        })
+
+
+
+
+      // return this.userService.saveProfilePicture(blob)
+    }).catch(err => {
+      console.log(err)
+    })
+
+
+
+
+
+    })
+    .catch(err => console.log('Error', err));
 
 
 
 
 }
+
+
+private openMedia() :void
+{
+
+  const options: CameraOptions = {
+    quality: 100,
+    sourceType : this.camera.PictureSourceType.PHOTOLIBRARY,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.VIDEO
+    }
+
+  this.camera.getPicture(options)
+    .then(uri=> {
+
+
+
+      this.uploads.push({name:"File",downloadUrl: uri});
+      this.imageURI = uri;
+      var name = this.imageURI.substring(this.imageURI.lastIndexOf('/')+1, this.imageURI.length);
+
+      var directory: string = this.imageURI.substring(0, this.imageURI.lastIndexOf('/')+1);
+      directory = directory.split('%20').join(' ')
+      name = name.split('%20').join(' ')
+      console.log(directory)
+      console.log('About to read buffer')
+
+
+      return this.f.readAsArrayBuffer(directory, name).then((buffer: ArrayBuffer) => {
+        console.log(buffer)
+        console.log('Uploading file')
+        var blob = new Blob([buffer], { type: 'application/octet-stream' });
+        console.log(blob.size);
+        console.log(blob)
+
+        let fileType = {
+          camera: 'jpg',
+          video: 'mp4',
+          audio: 'mp4'
+        }
+
+        this.proceed= false;
+
+        const storageRef = firebase.storage().ref('files/' + new Date().getTime());
+
+
+
+
+
+        this.presentLoading();
+
+        return storageRef.put(blob).then(() => {
+          this.valid = true;
+          console.log(this.valid);
+          console.log('Upload completed')
+          //this.loader.dismiss;
+
+           let  files = [];
+
+
+          storageRef.getDownloadURL().then((url) => {
+
+            console.log("log1: " + url);
+
+            this.fire.downloadUrl = url;
+
+            console.log("log2:" + this.fire);
+
+            this.proceed = true;
+
+
+
+
+
+
+
+
+            this.firebaseUploads.push({downloadUrl: url});
+
+            return this.firebaseUploads;
+
+
+
+
+
+          });
+
+
+
+
+
+
+
+
+        console.log(this.firebaseUploads);
+        this.presentMedia('File');
+
+        })
+
+
+
+
+      // return this.userService.saveProfilePicture(blob)
+    }).catch(err => {
+      console.log(err)
+    })
+
+
+
+
+
+    })
+    .catch(err => console.log('Error', err));
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+documentPicker()
+{
+  this.filePicker.pickFile()
+  .then(uri => {
+
+
+    this.uploads.push({name:"File",downloadUrl: uri});
+    this.imageURI = uri;
+    var name = this.imageURI.substring(this.imageURI.lastIndexOf('/')+1, this.imageURI.length);
+
+    var directory: string = this.imageURI.substring(0, this.imageURI.lastIndexOf('/')+1);
+    directory = directory.split('%20').join(' ')
+    name = name.split('%20').join(' ')
+    console.log(directory)
+    console.log('About to read buffer')
+
+
+    return this.f.readAsArrayBuffer(directory, name).then((buffer: ArrayBuffer) => {
+      console.log(buffer)
+      console.log('Uploading file')
+      var blob = new Blob([buffer], { type: 'application/octet-stream' });
+      console.log(blob.size);
+      console.log(blob)
+
+      let fileType = {
+        camera: 'jpg',
+        video: 'mp4',
+        audio: 'mp4'
+      }
+
+      this.proceed= false;
+
+      const storageRef = firebase.storage().ref('files/' + new Date().getTime());
+
+
+
+
+
+      this.presentLoading();
+
+      return storageRef.put(blob).then(() => {
+        this.valid = true;
+        console.log(this.valid);
+        console.log('Upload completed')
+        //this.loader.dismiss;
+
+         let  files = [];
+
+
+        storageRef.getDownloadURL().then((url) => {
+
+          console.log("log1: " + url);
+
+          this.fire.downloadUrl = url;
+
+          console.log("log2:" + this.fire);
+
+          this.proceed = true;
+
+
+
+
+
+
+
+
+          this.firebaseUploads.push({downloadUrl: url});
+
+          return this.firebaseUploads;
+
+
+
+
+
+        });
+
+
+
+
+
+
+
+
+      console.log(this.firebaseUploads);
+      this.presentMedia('File');
+
+      })
+
+
+
+
+    // return this.userService.saveProfilePicture(blob)
+  }).catch(err => {
+    console.log(err)
+  })
+
+
+
+
+
+  })
+  .catch(err => console.log('Error', err));
+
+}
+
+}
+
+
+
+
+
+

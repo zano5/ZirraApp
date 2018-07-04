@@ -7,10 +7,16 @@
 <ion-header>
 
   <ion-navbar color="black">
-      <button ion-button  menuToggle (click)="about()">
+      <button  *ngIf="plat.is('android')" ion-button  menuToggle (click)="about()">
           <ion-icon name="arrow-round-back"  ></ion-icon>
         </button>
-    <ion-title>Terms And Conditions</ion-title>
+
+
+
+      <button  *ngIf="plat.is('ios')" ion-button  menuToggle (click)="about()">
+          <ion-icon name="ios-arrow-back-outline"  ></ion-icon>ZiRRA
+        </button>
+    <ion-title >Terms And Conditions</ion-title>
   </ion-navbar>
 
 </ion-header>

@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar color="black">
-      <button ion-button menuToggle >
+      <button ion-button menuToggle  type="overlay">
           <ion-icon name="menu"></ion-icon>
         </button>
 
@@ -112,7 +112,7 @@
      <ion-card  *ngFor="let racism of RacismList" (click)="showAlert(racism)" [style.backgroundImage]="'url(' + racism.avatar_url + ')'"
      style="background-position: center;
      background-repeat: no-repeat;
-     background-size: 400px 400px;
+     background-size: cover;
     ">
 
        <!-- <img [src]="racism.avatar_url" > -->

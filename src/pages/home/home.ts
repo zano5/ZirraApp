@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, MenuController } from 'ionic-angular';
 import { RACISM_LIST } from '../../mocks/Racism.mock';
 import * as firebase from 'firebase';
+import { CountryProvider } from '../../providers/country/country';
+import { FirebaseProvider } from '../../providers/firebase/firebase';
 
 
 
@@ -22,9 +24,38 @@ export class HomePage {
 
 
   RacismList= RACISM_LIST;
+  counter;
 
   person;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController,public menuCtrl: MenuController, private auth: AngularFireAuth) {
+  num:number;
+  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController,public menuCtrl: MenuController, private auth: AngularFireAuth,public country: CountryProvider, public fire: FirebaseProvider ) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     this.auth.auth.signInAnonymously();
@@ -91,7 +122,7 @@ export class HomePage {
           }
         },
         {
-          text: 'someone else',
+          text: 'Someone Else',
           handler: () => {
 
             this.person = 'someone';
@@ -124,17 +155,19 @@ export class HomePage {
           text: 'Cancel'
 
       },
-    {
-      text: 'Report Incident',
-        handler: () => {
-          this.presentConfirm();
-        }
-    }]
+  ]
 
 
     });
     alert.present();
   }
+
+
+  ionViewDidLoad(){
+    this.country.getRemoteData();
+}
+
+
 
 
 }

@@ -12,6 +12,7 @@ import {storage} from 'firebase';
 
 
 import { AngularFireDatabase } from 'angularfire2/database/database';
+import { Network } from '@ionic-native/network';
 
 
 /**
@@ -28,10 +29,13 @@ import { AngularFireDatabase } from 'angularfire2/database/database';
 })
 export class Report1Page {
 
+  reportedInfo='';
+  option='';
   report:FormGroup;
   person;
   info;
   repo={
+    caseNo:0,
     name:"",
     surname:"",
     email:"",
@@ -49,7 +53,11 @@ export class Report1Page {
     religion:"",
     person:"",
     created:"",
-    fireUploads: []
+    reported:"",
+    organization:"",
+    fireUploads: [],
+    type:""
+
 
 
 
@@ -57,7 +65,6 @@ export class Report1Page {
   }
 
   type ="";
-  status= false;
   title="";
   url="";
   file="";
@@ -67,6 +74,8 @@ export class Report1Page {
 
   files;
   fireUpload;
+  num:number;
+  net = true;
 
 
 
@@ -74,9 +83,17 @@ export class Report1Page {
 
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private fb: FormBuilder,private toastCtrl: ToastController,private fire: FirebaseProvider, private alertCtrl: AlertController,public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private fb: FormBuilder,private toastCtrl: ToastController,private fire: FirebaseProvider, private alertCtrl: AlertController,public loadingCtrl: LoadingController,private network: Network) {
 
    this.fireUpload = this.navParams.get('fireUpload');
+
+
+   var starCountRef = firebase.database().ref('counter');
+   starCountRef.once('value').then((snapshot) =>{
+     this.getCounter(snapshot.val().counter);
+});
+
+
 
 
     console.log(this.fireUpload);
@@ -88,6 +105,8 @@ export class Report1Page {
     this.video= this.navParams.get('video');
     this.audio=this.navParams.get('audio');
     this.image=this.navParams.get('image');
+
+
 
     console.log(this.info.location);
 
@@ -111,6 +130,8 @@ export class Report1Page {
       surname:[''],
       email:['',Validators.email],
       number:['',[Validators.minLength(10),Validators.maxLength(10)]],
+      organization: [''],
+      reported:['']
 
 
 
@@ -134,12 +155,12 @@ export class Report1Page {
 
     if(this.type === 'someone'){
 
-      this.repo.find = this.person.find;
+      this.repo.type = this.person.find;
 
     }else{
 
 
-    }
+
 
       this.repo.name = value.name;
       this.repo.surname = value.surname;
@@ -157,11 +178,15 @@ export class Report1Page {
       this.repo.location = this.info.location;
       this.repo.person = this.type;
       this.repo.created = new Date().toISOString();
-   
+      this.repo.reported = this.reportedInfo;
+      this.repo.organization = this.option;
+      this.repo.caseNo = this.num;
+    
+
       this.repo.fireUploads  = this.fireUpload;
+    }
 
-
-
+    console.log(this.repo.reported);
 
 
 
@@ -169,8 +194,19 @@ export class Report1Page {
      // this.repo.location = this.info.location;
 
 
+     // watch network for a disconnect
+
+
+
 
      this.fire.addReport(this.repo);
+
+     firebase.database().ref('counter').set({
+      counter: this.num
+
+
+
+     });
 
     // console.log(this.repo.person);
       // this.presentToast();
@@ -181,8 +217,10 @@ export class Report1Page {
 
       this.navCtrl.setRoot('HomePage');
 
-  }
 
+
+
+    }
 
   // presentToast() {
   //   let toast = this.toastCtrl.create({
@@ -202,7 +240,7 @@ export class Report1Page {
   presentConfirm() {
     let alert = this.alertCtrl.create({
       title: 'Report Submitted',
-      message: 'Thank you for submitting your report, we encourage all victims of racism to report this to their nearest police station. We may contact you for more information',
+      message: 'Thank you for submitting your report. We encourage all people to take a stand against racism.',
       buttons: [
         {
           text: 'Ok',
@@ -248,8 +286,38 @@ export class Report1Page {
   // }
 
 
+  terms(){
+
+    this.navCtrl.push('TermsPage',{terms:'terms'});
+
+  }
 
 
+  getCounter(point: any = null): any{
+    this.num = parseInt(point) + 1;
+    console.log("point="+ this.num);
+  }
+
+
+  presentNetError() {
+    let alert = this.alertCtrl.create({
+      title: 'Error!',
+      message: 'Please check network status of application',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'ok',
+          handler: () => {
+
+          }
+        },
+
+
+
+      ]
+    });
+    alert.present();
+  }
 
 
 

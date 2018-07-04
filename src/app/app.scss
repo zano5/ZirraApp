@@ -19,7 +19,7 @@
   padding-right:10px;
   padding-top:10px;
   width:100%;
- 
+
 
 
 
@@ -60,3 +60,14 @@ button{
   margin-left: 5px;
 
 }
+
+.alert-ios .alert-radio-label{ white-space: pre-line;}
+.alert-md .alert-radio-label{ white-space: pre-line;}
+.alert-wp .alert-radio-label{ white-space: pre-line;}
+
+
+ion-label{
+  white-space:normal !important;
+  }
+
+

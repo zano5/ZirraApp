@@ -21,17 +21,32 @@
 
 
 
-        <ion-item>
-            <ion-label>Type of Incident</ion-label>
-            <ion-select formControlName="type">
-                <ion-option value="something written/posted">Something written/posted </ion-option>
-                <ion-option value="harassmentr">Harassment</ion-option>
-                <ion-option value="graffiti">Graffiti</ion-option>
-                <ion-option value="physical harm">Physical Harm</ion-option>
-                <ion-option value="verbal abuse">Verbal Abuse</ion-option>
-                <ion-option value="verbal abuse">Social Media</ion-option>
-            </ion-select>
-          </ion-item>
+
+      <ion-item>
+        <ion-label>How did you find out about it?</ion-label>
+        <ion-select formControlName="find">
+            <ion-option value="I saw it">I saw it</ion-option>
+            <ion-option value="I heard about it">I heard about it</ion-option>
+            <ion-option value="A client/service user">A client/service user</ion-option>
+        </ion-select>
+      </ion-item>
+
+  <ion-item  *ngIf="report.controls.find.invalid && report.controls.find.dirty" no-lines>
+    <p>Please provide the find out about field</p>
+  </ion-item>
+
+
+  <ion-item text-wrap>
+    <ion-label>Type of Incident</ion-label>
+    <ion-select formControlName="type">
+        <ion-option value="something written/posted">Written/posted or communicated on media</ion-option>
+        <ion-option value="harassmentr">Harassment</ion-option>
+        <ion-option value="graffiti">Graffiti</ion-option>
+        <ion-option value="physical harm">Physical Harm</ion-option>
+        <ion-option value="verbal abuse">Verbal Abuse</ion-option>
+
+    </ion-select>
+  </ion-item>
 
 
           <ion-item  *ngIf="report.controls.type.invalid && report.controls.type.dirty" no-lines>
@@ -42,30 +57,19 @@
 
 
 
-          <ion-item>
-              <ion-label floating >Nationality</ion-label>
-              <ion-input type="text" formControlName="nationality"></ion-input>
-              </ion-item>
 
-              <ion-item  *ngIf="report.controls.nationality.invalid && report.controls.nationality.dirty" no-lines>
-                <p>Please provide nationality</p>
-              </ion-item>
+          <ion-searchbar (ionInput)="getItems($event)"  autocomplete="on" formControlName="nationality" id="amount" [(ngModel)]="value" placeholder="Nationality"></ion-searchbar >
+
+            <div *ngIf="showList === true">
+          <ion-list>
+            <ion-item *ngFor="let item of items " (click)="populate(item)" text-wrap>
+              {{ item.name }}
+            </ion-item>
+          </ion-list>
+        </div>
 
 
 
-
-        <ion-item>
-            <ion-label>How did you find out about it?</ion-label>
-            <ion-select formControlName="find">
-                <ion-option value="I saw it">I saw it</ion-option>
-                <ion-option value="I heard about it">I heard about it</ion-option>
-                <ion-option value="A client/service user">A client/service user</ion-option>
-            </ion-select>
-          </ion-item>
-
-          <ion-item  *ngIf="report.controls.find.invalid && report.controls.find.dirty" no-lines>
-            <p>Please provide the find out about field</p>
-          </ion-item>
 
 
 
@@ -143,7 +147,7 @@
 
 
 
-                <button ion-button block round type="submit" [disabled]="report.invalid" color="toolbar">Next</button>
+                <button ion-button block type="submit" [disabled]="report.invalid" color="toolbar">Next</button>
 
 
     </form>
