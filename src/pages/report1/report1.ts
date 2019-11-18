@@ -8,6 +8,11 @@ import { Report } from '../../modals/report.modals';
 import { ToastController } from 'ionic-angular';
 import * as firebase from 'firebase';
 
+
+
+import { Http, Headers, Response, URLSearchParams, RequestOptions } from '@angular/http';
+import 'rxjs/add/operator/toPromise';
+
 import {storage} from 'firebase';
 
 
@@ -74,16 +79,18 @@ export class Report1Page {
 
   files;
   fireUpload;
-  num:number;
+  num:number=0;
   net = true;
 
+  message= ''
 
 
 
 
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private fb: FormBuilder,private toastCtrl: ToastController,private fire: FirebaseProvider, private alertCtrl: AlertController,public loadingCtrl: LoadingController,private network: Network) {
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,private fb: FormBuilder,private toastCtrl: ToastController,private fire: FirebaseProvider, private alertCtrl: AlertController,public loadingCtrl: LoadingController,private network: Network, private http: Http) {
 
    this.fireUpload = this.navParams.get('fireUpload');
 
@@ -181,12 +188,14 @@ export class Report1Page {
       this.repo.reported = this.reportedInfo;
       this.repo.organization = this.option;
       this.repo.caseNo = this.num;
-    
+
 
       this.repo.fireUploads  = this.fireUpload;
     }
 
     console.log(this.repo.reported);
+
+this.message = this.repo.name + '' + this.repo.surname + ' ' + this.repo.email + ' ' + this.repo.number + ' ';
 
 
 
@@ -197,7 +206,8 @@ export class Report1Page {
      // watch network for a disconnect
 
 
-
+    if(this.num != 0)
+    {
 
      this.fire.addReport(this.repo);
 
@@ -208,6 +218,8 @@ export class Report1Page {
 
      });
 
+     this.sendEmail(this.message);
+
     // console.log(this.repo.person);
       // this.presentToast();
 
@@ -217,7 +229,11 @@ export class Report1Page {
 
       this.navCtrl.setRoot('HomePage');
 
+    }else{
 
+
+      this. presentNetwork();
+    }
 
 
     }
@@ -237,10 +253,10 @@ export class Report1Page {
   // }
 
 
-  presentConfirm() {
+  presentNetwork() {
     let alert = this.alertCtrl.create({
-      title: 'Report Submitted',
-      message: 'Thank you for submitting your report. We encourage all people to take a stand against racism.',
+      title: 'Network Error',
+      message: 'Please check that you connected to the internet!',
       buttons: [
         {
           text: 'Ok',
@@ -319,9 +335,51 @@ export class Report1Page {
     alert.present();
   }
 
+  presentConfirm() {
+    let alert = this.alertCtrl.create({
+      title: 'Report Submitted',
+      message: 'Thank you for submitting your report. We encourage all people to take a stand against racism.',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'ok',
+          handler: () => {
+
+          }
+        },
 
 
 
+      ]
+    });
+    alert.present();
+  }
+
+
+
+
+  sendEmail(message) {
+
+    let url = 'https://us-central1-zirra-ad665.cloudfunctions.net/httpEmail';
+    let params: URLSearchParams = new URLSearchParams();
+    let headers = new Headers({'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+    let options = new RequestOptions({headers: headers});
+
+    params.set('to', 'zanoxolo@mlab.com');
+    params.set('from', 'zanoxolomngadis@gmail.com');
+    params.set('subject', 'Zirra Report');
+    params.set('content', 'Hello World');
+
+    return this.http.post(url, params, options)
+                    .toPromise()
+                    .then( res => {
+                      console.log(res)
+                    })
+                    .catch(err => {
+                      console.log(err)
+                    })
+
+  }
 
 
 }

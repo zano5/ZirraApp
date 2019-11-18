@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="za.co.kathrada" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>ZiRRA</name>
-    <description>An awesome Ionic/Cordova app.</description>
+    <description>The Zimele Racism Reporting App is developed by the Ahmed Kathrada Foundation in partnership with mLab SA. This App works as a racism incident reporting tool that allows individuals to report cases of racism countrywide. </description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
     <content src="index.html" />
     <access origin="*" />
@@ -87,6 +87,6 @@
     <plugin name="cordova-plugin-filechooser" spec="^1.0.1" />
     <plugin name="cordova-plugin-filepath" spec="^1.3.0" />
     <plugin name="cordova-plugin-filepicker" spec="^1.1.5" />
-    <engine name="android" spec="~7.0.0" />
-    <engine name="ios" spec="~4.5.4" />
+    <engine name="ios" spec="4.5.5" />
+    <engine name="android" spec="7.0.0" />
 </widget>

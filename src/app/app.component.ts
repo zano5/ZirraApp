@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, Popover, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 import { RACISM_LIST } from '../mocks/Racism.mock';
 
@@ -12,7 +13,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   @ViewChild(Popover) popover: Popover;
 
-  rootPage: string= 'HomePage';
+  rootPage: string= 'SliderPage';
   person;
   racism="";
   CValue
@@ -51,7 +52,7 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component,{terms:'home'});
+    this.nav.push(page.component,{terms:'home'});
   }
 }
 

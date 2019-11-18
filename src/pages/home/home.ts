@@ -8,6 +8,7 @@ import { FirebaseProvider } from '../../providers/firebase/firebase';
 
 
 
+
 /**
  * Generated class for the HomePage page.
  *
@@ -28,7 +29,7 @@ export class HomePage {
 
   person;
   num:number;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController,public menuCtrl: MenuController, private auth: AngularFireAuth,public country: CountryProvider, public fire: FirebaseProvider ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController,public menuCtrl: MenuController, private auth: AngularFireAuth,public country: CountryProvider, public fire: FirebaseProvider) {
 
 
 
@@ -58,7 +59,7 @@ export class HomePage {
 
 
 
-    this.auth.auth.signInAnonymously();
+    // this.auth.auth.signInAnonymously();
     // firebase.auth().signInAnonymously().catch(function(error) {
     //   // Handle Errors here.
     //   var errorCode = error.code;
@@ -164,6 +165,9 @@ export class HomePage {
 
 
   ionViewDidLoad(){
+
+
+
     this.country.getRemoteData();
 }
 

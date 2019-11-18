@@ -39,6 +39,11 @@ import { Network } from '@ionic-native/network';
 
 
 
+
+
+
+
+
 var firebaseConfig = {
   apiKey: "AIzaSyBR3NW_YHhen6SAYvvIr2mSrxHbT5T9zI0",
   authDomain: "zirra-ad665.firebaseapp.com",
@@ -65,7 +70,9 @@ var firebaseConfig = {
     AngularFireDatabaseModule,
    AngularFireAuthModule,
   AngularFireModule.initializeApp(firebaseConfig),
-  HttpClientModule
+  HttpClientModule,
+  HttpModule
+
 
 
   ],

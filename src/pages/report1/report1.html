@@ -52,7 +52,7 @@
 
 
           <ion-item>
-            <ion-label floating text-wrap>Have you reported this to any organization/institution?</ion-label>
+            <ion-label floating text-wrap class="my-label">Have you reported this to any organization/institution?</ion-label>
             <ion-select formControlName="organization" [(ngModel)]="option">
               <ion-option value="yes">Yes</ion-option>
               <ion-option value="no">No</ion-option>
@@ -65,7 +65,7 @@
 
 
           <ion-item text-wrap>
-            <ion-label floating  text-wrap>Which of the following organization did you report the incident to ?</ion-label>
+            <ion-label floating  text-wrap class="my-label">Which of the following organization did you report the incident to ?</ion-label>
             <ion-select multiple="true" formControlName="reported"  [(ngModel)]="reportedInfo">
               <ion-option value="police">Police</ion-option>
               <ion-option value="a trade union">A Trade Union</ion-option>
@@ -85,7 +85,7 @@
             <div *ngIf="option ==='no'">
 
               <ion-item text-wrap>
-                <ion-label floating text-wrap>Reason for not reporting?</ion-label>
+                <ion-label floating text-wrap class="my-label">Reason for not reporting?</ion-label>
                 <ion-select  formControlName="reported" [(ngModel)]="reportedInfo">
                   <ion-option text-wrap value="I would not feel comfortable talking to the aforementioned organizations">I would not feel comfortable talking to the aforementioned organisations</ion-option>
                   <ion-option  text-wrap value="Poor response from them when dealing with previous incidents">Poor response from them when dealing with previous incidents</ion-option>
